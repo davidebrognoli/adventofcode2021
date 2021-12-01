@@ -3,7 +3,6 @@ const path = require('path')
 
 const puzzle1 = (data) => {
   const checks = data.length - 1;
-  console.log(checks);
   return data.filter((n, index) => {
     return index < checks && n < data[index + 1];
   }).length;
