@@ -11,8 +11,24 @@ const parseBoard = (board) => {
   return [...rows, ...columns];
 };
 
+const calculateResult = (found, analyzedNumbers) => {
+  const sum = found.reduce((acc, row) => {
+    return (
+      acc +
+      row.reduce((rowAcc, n) => {
+        if (analyzedNumbers.includes(n)) {
+          return rowAcc;
+        }
+        return rowAcc + n;
+      }, 0)
+    );
+  }, 0);
+  const lastNumber = analyzedNumbers[analyzedNumbers.length - 1];
+  return (sum / 2) * lastNumber;
+};
+
 const puzzle1 = (numbers, boards) => {
-  parsedBoards = boards.map((b) => parseBoard(b));
+  const parsedBoards = boards.map((b) => parseBoard(b));
   const puzzleNumbers = [...numbers];
   let found = null;
   let analyzedNumbers = [];
@@ -29,23 +45,11 @@ const puzzle1 = (numbers, boards) => {
       });
     }
   }
-  const sum = found.reduce((acc, row) => {
-    return (
-      acc +
-      row.reduce((rowAcc, n) => {
-        if (analyzedNumbers.includes(n)) {
-          return rowAcc;
-        }
-        return rowAcc + n;
-      }, 0)
-    );
-  }, 0);
-  const lastNumber = analyzedNumbers[analyzedNumbers.length - 1];
-  return (sum / 2) * lastNumber;
+  return calculateResult(found, analyzedNumbers);
 };
 
 const puzzle2 = (numbers, boards) => {
-  parsedBoards = boards.map((b) => parseBoard(b));
+  const parsedBoards = boards.map((b) => parseBoard(b));
   const puzzleNumbers = [...numbers];
   let found = null;
   let analyzedNumbers = [];
@@ -69,19 +73,7 @@ const puzzle2 = (numbers, boards) => {
       });
     }
   }
-  const sum = found.reduce((acc, row) => {
-    return (
-      acc +
-      row.reduce((rowAcc, n) => {
-        if (analyzedNumbers.includes(n)) {
-          return rowAcc;
-        }
-        return rowAcc + n;
-      }, 0)
-    );
-  }, 0);
-  const lastNumber = analyzedNumbers[analyzedNumbers.length - 1];
-  return (sum / 2) * lastNumber;
+  return calculateResult(found, analyzedNumbers);
 };
 
 const filePath = path.join(__dirname, "input.txt");
